@@ -1,6 +1,17 @@
 import type { AnalyzeRequest, AnalyzeResponse } from '../types/analyze'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.trim() || '/api'
+declare global {
+  interface Window {
+    __APP_CONFIG__?: {
+      VITE_API_BASE_URL?: string
+    }
+  }
+}
+
+const API_BASE_URL =
+  window.__APP_CONFIG__?.VITE_API_BASE_URL?.trim() ||
+  import.meta.env.VITE_API_BASE_URL?.trim() ||
+  '/api'
 
 type BackendError = {
   detail?: string
