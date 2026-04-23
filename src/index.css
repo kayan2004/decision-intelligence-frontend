@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink-50: #f5f7fb;
+  --color-ink-100: #e8ecf4;
+  --color-ink-200: #d6dce7;
+  --color-ink-300: #bac4d4;
+  --color-ink-400: #8f9ab0;
+  --color-ink-500: #677287;
+  --color-ink-600: #4b5568;
+  --color-ink-700: #384151;
+  --color-ink-800: #222938;
+  --color-ink-900: #141926;
+
+  --color-brand-50: #eef6ff;
+  --color-brand-100: #d9eaff;
+  --color-brand-200: #bcd9ff;
+  --color-brand-300: #8dbdff;
+  --color-brand-400: #5d9cff;
+  --color-brand-500: #357df4;
+  --color-brand-600: #1e63d1;
+  --color-brand-700: #194ea4;
+
+  --color-success-50: #eaf8f2;
+  --color-success-500: #2e8b57;
+  --color-warning-50: #fdf3dd;
+  --color-warning-500: #b7791f;
+  --color-danger-50: #fcebea;
+  --color-danger-500: #c53030;
+
+  --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  background:
+    radial-gradient(circle at top left, rgba(93, 156, 255, 0.12), transparent 35%),
+    linear-gradient(180deg, #f8fbff 0%, #eef3f8 100%);
+  color: var(--color-ink-800);
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--font-sans);
+}
+
+#root {
+  min-height: 100vh;
+}
