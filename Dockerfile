@@ -8,13 +8,16 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM nginx:alpine
+FROM node:20-slim
 
-COPY nginx.conf /etc/nginx/templates/default.conf.template
-COPY docker/40-env-config.sh /docker-entrypoint.d/40-env-config.sh
-RUN chmod +x /docker-entrypoint.d/40-env-config.sh
-COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-EXPOSE 80
+RUN npm install -g serve
 
-CMD ["nginx", "-g", "daemon off;"]
+COPY --from=build /app/dist ./dist
+COPY docker/start.sh ./start.sh
+RUN chmod +x ./start.sh
+
+EXPOSE 3000
+
+CMD ["./start.sh"]
