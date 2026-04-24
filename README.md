@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# Decision Intelligence Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite + TypeScript frontend for comparing support-ticket analysis outputs from the backend.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Business-friendly analysis dashboard
+- Single-query comparison view
+- RAG answer vs non-RAG answer
+- ML priority prediction vs LLM priority prediction
+- Retrieved source evidence display
 
-## React Compiler
+## Backend Dependency
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The frontend is built to call the backend `POST /analyze` endpoint.
 
-## Expanding the ESLint configuration
+Expected request shape:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```json
+{
+  "query": "I was charged twice and cannot log in",
+  "top_k": 5
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment Variable
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `VITE_API_BASE_URL`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Examples:
+
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
+
+or for deployment:
+
+```env
+VITE_API_BASE_URL=https://your-backend-service.up.railway.app
+```
+
+The production container injects this at runtime through `env.js`, so the frontend does not need to be rebuilt just to change the backend URL.
+
+## Local Development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the dev server:
+
+```bash
+npm run dev
+```
+
+## Production Build
+
+Build:
+
+```bash
+npm run build
+```
+
+Preview locally:
+
+```bash
+npm run preview
+```
+
+## Docker
+
+Build:
+
+```bash
+docker build -t decision-intelligence-frontend .
+```
+
+Run:
+
+```bash
+docker run -e VITE_API_BASE_URL=http://host.docker.internal:8000 -p 3000:3000 decision-intelligence-frontend
+```
+
+Open:
+
+```text
+http://127.0.0.1:3000
+```
+
+## Deployment Notes
+
+- The frontend uses a multi-stage Docker build.
+- Static assets are served with a lightweight Node runtime using `serve`.
+- Runtime config is written into `dist/env.js` on container startup.
