@@ -25,6 +25,10 @@ function badgeClasses(priority: string) {
     : 'bg-success-50 text-success-500 ring-success-50'
 }
 
+function formatAccuracy(value: number | null) {
+  return value === null ? 'N/A' : `${Math.round(value * 100)}%`
+}
+
 export function PriorityCard(props: PriorityCardProps) {
   const priority = props.prediction.predicted_priority
 
@@ -56,6 +60,39 @@ export function PriorityCard(props: PriorityCardProps) {
             </p>
           </div>
         ) : null}
+      </div>
+
+      <div className="mt-4 grid gap-3 rounded-[1.25rem] border border-ink-100 bg-white p-4 sm:grid-cols-5">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Latency</p>
+          <p className="mt-2 text-lg font-semibold text-ink-900">
+            {props.prediction.metrics.latency_ms.toFixed(0)} ms
+          </p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Accuracy</p>
+          <p className="mt-2 text-lg font-semibold text-ink-900">
+            {formatAccuracy(props.prediction.reference_accuracy)}
+          </p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Prompt Tokens</p>
+          <p className="mt-2 text-lg font-semibold text-ink-900">
+            {props.prediction.metrics.prompt_tokens}
+          </p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Output Tokens</p>
+          <p className="mt-2 text-lg font-semibold text-ink-900">
+            {props.prediction.metrics.output_tokens}
+          </p>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Total Tokens</p>
+          <p className="mt-2 text-lg font-semibold text-ink-900">
+            {props.prediction.metrics.total_tokens}
+          </p>
+        </div>
       </div>
 
       {'confidence' in props.prediction ? (

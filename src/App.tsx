@@ -147,12 +147,14 @@ function App() {
                   title="RAG Answer"
                   description="Grounded in retrieved historical support evidence to provide a more context-aware reply."
                   answer={result.rag_answer}
+                  metrics={result.rag_metrics}
                 />
                 <AnswerCard
                   eyebrow="AI Response Comparison"
                   title="Non-RAG Answer"
                   description="Generated without retrieval context, showing the baseline model response on the same issue."
                   answer={result.non_rag_answer}
+                  metrics={result.non_rag_metrics}
                 />
                 <PriorityCard
                   kind="ml"
@@ -165,7 +167,7 @@ function App() {
                   kind="llm"
                   eyebrow="Priority Assessment"
                   title="LLM Zero-Shot Prediction"
-                  description="Gemini’s urgency assessment using direct instruction without the trained classifier."
+                  description="Gemini's urgency assessment using direct instruction without the trained classifier."
                   prediction={result.llm_priority}
                 />
               </section>
